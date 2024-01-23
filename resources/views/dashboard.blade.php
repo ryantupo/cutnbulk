@@ -1,4 +1,3 @@
-<!-- resources/views/dashboard.blade.php -->
 
 <x-app-layout>
     <x-slot name="header">
