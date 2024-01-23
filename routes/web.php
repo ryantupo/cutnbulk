@@ -1,7 +1,9 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DashboardController as DashboardControllerAlias;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\WeightLogController;
+use App\Http\Controllers\DarkModeController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,22 +15,22 @@ use Illuminate\Support\Facades\Route;
 | routes are loaded by the RouteServiceProvider and all of them will
 | be assigned to the "web" middleware group. Make something great!
 |
-*/
+ */
 
 Route::get('/', function () {
     return view('welcome');
 });
 
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+    Route::get('/toggle-dark-mode', [DarkModeController::class, 'toggle'])->name('toggle-dark-mode');
+});
 
-// routes/web.php
 
-use App\Http\Controllers\DashboardController as DashboardControllerAlias;
+Route::post('/save-weight-log', [WeightLogController::class, 'save'])->name('save-weight-log');
 
 Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/dashboard', [DashboardControllerAlias::class, 'index'])->name('dashboard');
 });
-
-
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -36,4 +38,4 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

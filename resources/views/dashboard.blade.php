@@ -1,4 +1,3 @@
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
@@ -10,12 +9,18 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                    {{ __("You're logged in!") }}
+                    {{--  {{ __("You're logged in!") }}  --}}
 
                     {{--  <!-- Include Chart.js and Moment.js -->  --}}
                     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
                     <script src="https://cdn.jsdelivr.net/npm/moment"></script>
                     <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-moment"></script>
+
+
+                    <button type="button" class="btn btn-primary" onclick="toggleModalBody()">
+                        Add Weight Log
+                    </button>
+
 
                     <canvas id="weightChart" width="400" height="200"></canvas>
 
@@ -130,4 +135,20 @@
             </div>
         </div>
     </div>
+
+    <div id="weightLogModalBody"
+        class="hidden fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-md w-full p-6 bg-white border rounded-md shadow-md">
+        <!-- Include the content of your add-weight-log.blade.php here -->
+        @include('add-weight-log')
+        <button type="button" class="btn btn-secondary mt-4" onclick="toggleModalBody()">Close</button>
+    </div>
+
+    <script>
+        function toggleModalBody() {
+            const modalBody = document.getElementById('weightLogModalBody');
+            modalBody.classList.toggle('hidden');
+        }
+    </script>
+
+
 </x-app-layout>
