@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="{{ auth()->user() && auth()->user()->dark_mode ? 'dark' : 'light' }}">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}"
+    class="{{ auth()->user() && auth()->user()->dark_mode ? 'dark' : 'light' }}">
 
 
 <head>
@@ -27,10 +28,101 @@
             <header class="bg-white dark:bg-gray-800 shadow">
                 <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
                     {{ $header }}
+
+                    <!-- Toggle Switch -->
+                    <a href="{{ route('toggle-dark-mode') }}" class="flex items-center cursor-pointer">
+                        <div class="toggle-switch-container">
+                            <input type="checkbox" id="toggleDarkMode" onclick="toggleDarkMode()">
+                            <div class="toggle-switch"></div>
+                            <div class="toggle-switch-dot"></div>
+                        </div>
+                    </a>
                 </div>
-                <a href="{{ route('toggle-dark-mode') }}" class="px-3 py-2 rounded-md cursor-pointer">Toggle Dark
-                    Mode</a>
-                <h1>{{ auth()->user() && auth()->user()->dark_mode ? 'dark' : 'light' }}</h1>
+                <style>
+                    @keyframes slideLeft {
+                        0% {
+                            transform: translateX(0);
+                        }
+
+                        100% {
+                            transform: translateX(-31px);
+                        }
+                    }
+
+                    @keyframes slideRight {
+                        0% {
+                            transform: translateX(0);
+                        }
+
+                        100% {
+                            transform: translateX(31px);
+                        }
+                    }
+
+                    .toggle-switch-container {
+                        position: relative;
+                        display: inline-block;
+                        margin: auto;
+                    }
+
+                    .toggle-switch {
+                        position: absolute;
+                        top: 0;
+                        left: 0;
+                        width: 50px;
+                        height: 20px;
+                        background-color: #ccc;
+                        border-radius: 10px;
+                        cursor: pointer;
+                        transition: background-color 0.3s;
+                    }
+
+                    .toggle-switch-dot {
+                        position: absolute;
+                        top: 2px;
+                        left: {{ auth()->user() && auth()->user()->dark_mode ? '31px' : '2px' }};
+                        width: 16px;
+                        height: 16px;
+                        background-color: white;
+                        border-radius: 50%;
+                        transition: left 0.3s, transform 0.3s;
+                        animation: moveDot 3s forwards;
+                        /* Added animation property */
+                    }
+
+                    @keyframes moveDot {
+                        0% {
+                            left: {{ auth()->user() && auth()->user()->dark_mode ? '2px' : '31px' }};
+                        }
+
+                        100% {
+                            left: {{ auth()->user() && auth()->user()->dark_mode ? '31px' : '2px' }};
+                        }
+                    }
+
+                    input[type="checkbox"] {
+                        display: none;
+                    }
+
+                    input[type="checkbox"]:checked+.toggle-switch-dot {
+                        left: {{ auth()->user() && auth()->user()->dark_mode ? '0' : '31px' }};
+                        transform: translateX(0);
+                    }
+                </style>
+                </head>
+
+                <body>
+
+
+
+                    <script>
+                        function toggleDarkMode() {
+                            // You can add AJAX logic here to update the dark mode status on the server
+                            // For simplicity, I'm just updating the text content of the h1 element
+                            var darkModeStatus = document.getElementById('darkModeStatus');
+                            darkModeStatus.textContent = darkModeStatus.textContent === 'dark' ? 'light' : 'dark';
+                        }
+                    </script>
 
             </header>
         @endif
